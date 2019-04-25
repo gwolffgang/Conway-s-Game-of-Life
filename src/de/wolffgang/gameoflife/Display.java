@@ -10,9 +10,17 @@ public class Display {
 	private JFrame frame;
 	private Canvas canvas;
 
-	private String title;
-	private int width, height;
+	private final String title;
+	private final int width, height;
 
+	/**
+	 * The display() constructor is used to initiate the needed variables
+	 * and call createDisplay(). 
+	 * @param title	 the title of the GUI game window
+	 * @param width  the width of the GUI game window
+	 * @param height the height of the GUI game window
+	 */
+	
 	public Display(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
@@ -21,6 +29,11 @@ public class Display {
 		createDisplay();
 	}
 
+	/**
+	 * Creates and shows the new window to display the Game of Life.
+	 * It is called automatically when the program is started.
+	 */
+	
 	private void createDisplay() {
 		frame = new JFrame(title);
 		frame.setSize(width, height);

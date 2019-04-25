@@ -6,36 +6,39 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
-	final static int MAX_AGE = 9; // 0 disables
-	final static int LIFE_PERCENTAGE = 25;
+	final static int MAX_AGE = 9;
+	final static int LIFE_PERCENTAGE = 15;
 
 	private Display display;
-	private String title;
 	private int width, height;
 	private int scale = 3;
 	private static World world;
 
-	private boolean running = false;
-	private Thread thread;
-
 	private BufferStrategy bs;
 	private Graphics g;
 
+	/**
+	 * Initiate the Game() constructor to start an instance of the Game of Life. It
+	 * is automatically used, when the Launcher is called.
+	 * 
+	 * @param title  the title of the GUI game window
+	 * @param width  the width of the GUI game window
+	 * @param height the height of the GUI game window
+	 */
+
 	public Game(String title, int width, int height) {
-		this.title = title;
 		this.width = width;
 		this.height = height;
 
 		world = new World(width, height);
-	}
-
-	private void init() {
 		display = new Display(title, width * scale, height * scale);
 	}
 
-	private void tick() {
-		world.evolve();
-	}
+	/**
+	 * The render() method calculates and updates all data, used to generate the
+	 * next step of the Game of Life. It is part of the threading functionality and
+	 * is called automatically.
+	 */
 
 	private void render() {
 		bs = display.getCanvas().getBufferStrategy();
@@ -58,53 +61,37 @@ public class Game implements Runnable {
 		g.dispose();
 	}
 
+	/**
+	 * The run() method starts the Game of Life hosts the infinite while-loop and
+	 * display the FPS of the game.
+	 */
+
 	public void run() {
-		init();
-		
-		int fps = 5;
+
+		int fps = 2;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
 		long now = 0L;
 		long lastTime = System.nanoTime();
 		long timer = 0L;
 		int ticks = 0;
-		
-		while (running) {
+
+		while (true) {
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerTick;
 			timer += now - lastTime;
 			lastTime = now;
 			if (1 <= delta) {
-				tick();
+				world.evolve();
 				render();
 				ticks++;
 				delta--;
 			}
-			if (1000000000 <= timer) { 
+			if (1000000000 <= timer) {
 				System.out.println("FPS: " + ticks);
 				ticks = 0;
 				timer = 0;
 			}
-		}
-		stop();
-	}
-
-	public synchronized void start() {
-		if (running)
-			return;
-		running = true;
-		thread = new Thread(this);
-		thread.start();
-	}
-
-	public synchronized void stop() {
-		if (!running)
-			return;
-		running = false;
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
