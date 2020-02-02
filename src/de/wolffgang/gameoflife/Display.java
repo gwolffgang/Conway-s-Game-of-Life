@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class Display {
 
@@ -14,14 +15,14 @@ public class Display {
 	private final int width, height;
 
 	/**
-	 * The display() constructor is used to initiate the needed variables
-	 * and call createDisplay(). 
-	 * @param title	 the title of the GUI game window
+	 * The display() constructor is used to initiate the needed variables and call
+	 * createDisplay().
+	 * 
+	 * @param title  the title of the GUI game window
 	 * @param width  the width of the GUI game window
 	 * @param height the height of the GUI game window
 	 */
-	
-	public Display(String title, int width, int height) {
+	public Display(final String title, final int width, final int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
@@ -30,14 +31,13 @@ public class Display {
 	}
 
 	/**
-	 * Creates and shows the new window to display the Game of Life.
-	 * It is called automatically when the program is started.
+	 * Creates and shows the new window to display the Game of Life. It is called
+	 * automatically when the program is started.
 	 */
-	
 	private void createDisplay() {
 		frame = new JFrame(title);
 		frame.setSize(width, height);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
